@@ -5,10 +5,10 @@ import java.util.Arrays;
 import java.util.Scanner; // Import the Scanner class to read text files
 
 public class lab1 {
-
+    //n^2
     public static int CountTripletsSumEfficient(int[] list, int sum) {
         int triplets = 0;
-        Arrays.sort(list);
+        Arrays.sort(list); //nlogn
 
 //        for(int i = 0; i < list.length; i++) {
 //            System.out.println(list[i]);
@@ -16,6 +16,7 @@ public class lab1 {
 
         //-3, -3, 0, 1, 2, 5
 
+        //n^2
         for(int i = 0; i < list.length; i++) {
             if(i == 0 || (i > 0 && list[i] != list[i-1])) {
                 int left = i+1;
@@ -53,8 +54,8 @@ public class lab1 {
         int len = list.length;
         len--;
 
-        for(int i = 0; i < len; i++) {
-            for(int j = 0; j < len; j++) {
+        for(int i = 0; i < len-2; i++) {
+            for(int j = 0; j < len-1; j++) {
                 for(int k = 0; k < len; k++) {
                     //System.out.println(list.get(i) + ", " + list.get(j) + ", " + list.get(k));
                     if(list[i] + list[j] + list[k] == sum) {
@@ -89,16 +90,16 @@ public class lab1 {
         int mysum = mylist[mylist.length-1];
 
 
-        long startTimer = System.currentTimeMillis();
-        int resBrute = CountTripleSumBrute(mylist, mysum);
-        long endTimer = System.currentTimeMillis();
-        System.out.println(resBrute);
-        System.out.println(endTimer-startTimer + "ms");
-
 //        long startTimer = System.currentTimeMillis();
-//        int resEff = CountTripletsSumEfficient(mylist, mysum);
+//        int resBrute = CountTripleSumBrute(mylist, mysum);
 //        long endTimer = System.currentTimeMillis();
-//        System.out.println(resEff);
+//        System.out.println(resBrute);
 //        System.out.println(endTimer-startTimer + "ms");
+
+        long startTimer = System.currentTimeMillis();
+        int resEff = CountTripletsSumEfficient(mylist, mysum);
+        long endTimer = System.currentTimeMillis();
+        System.out.println(resEff);
+        System.out.println(endTimer-startTimer + "ms");
     }
 }
