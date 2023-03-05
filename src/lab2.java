@@ -1,11 +1,18 @@
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
+import java.util.Stack;
+
+
 class Node<T extends Comparable> {
-    public T key;
+    public Integer key;
 
     public Node left, right, p;
 
-    public Node(T key) {
+    public Node(Integer key) {
         this.key = key;
     }
+
 }
 
 
@@ -22,7 +29,7 @@ class BST <T extends Comparable>{
     }
 
 
-    public void insert(T k) {
+    public void insert(Integer k) {
         Node x, y;
         Node z= new Node(k);
         y=null;
@@ -83,11 +90,11 @@ class BST <T extends Comparable>{
 
     }
 
-    public Node<T> search(T key) {
+    public Node<T> search(Integer key) {
         return searchHelper(root, key);
     }
 
-    public Node<T> searchHelper(Node<T> node, T key) {
+    public Node<T> searchHelper(Node<T> node, Integer key) {
         if(node == null || node.key.equals(key)) {
             return node;
         }
@@ -100,60 +107,120 @@ class BST <T extends Comparable>{
         }
     }
 
-//    public Node<T> successor(Node<T> node) {
-//        if(node == null) {
-//            return null;
-//        }
-//
-//        node = node.right;
-//        while(node != null) {
-//            node = node.left;
-//        }
-//
-//        return node;
-//    }
+
 
     public Node<T> successor(Node<T> node) {
         if (node == null) {
             return null;
         }
-        if (node.right != null) {
-            while (node.left != null) {
+
+        if(node.right != null) {
+            node = node.right;
+            while(node.left != null) {
                 node = node.left;
             }
             return node;
         }
-//        Node<T> parent = node.p;
-//        while (parent != null && node == parent.right) {
-//            node = parent;
-//            parent = parent.p;
-//        }
-//        return parent;
-    }
 
-    private Node<T> leftmost(Node<T> node) {
-        while (node.left != null) {
-            node = node.left;
+        Node<T> parent = node.p;
+        while(parent != null && node == parent.right) {
+            node = parent;
+            parent = parent.p;
         }
-        return node;
+        return parent;
     }
 
+    public boolean isPerfectlyBalanced() {
+        return isPerfectlyBalancedHelper(root) != -2;
+    }
+
+    private int isPerfectlyBalancedHelper(Node<T> node) {
+        if(node == null) {
+            return 0;
+        }
+
+        int left = isPerfectlyBalancedHelper(node.left);
+        if(left == -2) {
+            return -2;
+        }
+
+        int right = isPerfectlyBalancedHelper(node.right);
+        if(right == -2) {
+            return -2;
+        }
+
+        if(Math.abs(left-right) > 1) {
+            return -2;
+        }
+
+        return left+right+1;
+
+    }
+
+    public Node<T> searchClosest(Integer k) {
+        Node<T> closest = null;
+        Node<T> current = root;
+
+        while(current != null) {
+            if(k.compareTo(current.key) < 0) {
+                if(closest == null || Math.abs(k.compareTo(current.key)) < Math.abs(k.compareTo(closest.key))) {
+                    closest = current;
+                }
+                current = current.left;
+            }
+            else if(k.compareTo(current.key) > 0) {
+                if(closest == null || Math.abs(k.compareTo(current.key)) < Math.abs(k.compareTo(closest.key))) {
+                    closest = current;
+                }
+                current = current.right;
+            }
+            else {
+                return current;
+            }
+        }
+        return closest;
+    }
+
+    public boolean CheckExistTwoNodesWithSum(Integer s) {
+        if (root == null) {
+            return false;
+        }
+
+        Set<Integer> set = new HashSet<>();
+        Stack<Node<T>> stack = new Stack<>();
+        Node<T> curr = root;
+        while (curr != null || !stack.isEmpty()) {
+            while (curr != null) {
+                stack.push(curr);
+                curr = curr.left;
+            }
+            curr = stack.pop();
+            Integer target = s - curr.key;
+            if(set.contains(target)) {
+                return true;
+            }
+            set.add(curr.key);
+            curr = curr.right;
+        }
+        return false;
+    }
 
 
     public static void main(String[] args) {
 
-        BST<Integer> st1=new BST<Integer>();
-        st1.insert(8);
-        st1.insert(2);
-        st1.insert(10);
-        st1.insert(18);
+        BST<Integer> st1=new BST<>();
         st1.insert(1);
+        st1.insert(2);
+        st1.insert(8);
+        st1.insert(5);
         st1.insert(4);
-        st1.insert(7);
         st1.insert(3);
-        st1.insert(22);
-        st1.insert(20);
+        st1.insert(7);
         st1.insert(15);
+        st1.insert(10);
+        st1.insert(20);
+        st1.insert(18);
+        st1.insert(22);
         st1.inorder();
         System.out.println("\n");
         st1.preorder();
@@ -163,19 +230,19 @@ class BST <T extends Comparable>{
         System.out.println("Search for 7: ");
         System.out.println(st1.search(7));
 
-        System.out.println("Successor of 7: ");
-        System.out.println(st1.successor(st1.search(7)).key);
+        System.out.println("Successor of 18: ");
+        System.out.println(st1.successor(st1.search(18)).key);
+
+        System.out.println("Is perfectly balanced: ");
+        System.out.println(st1.isPerfectlyBalanced());
+
+        System.out.println("Closest of 16: ");
+        System.out.println(st1.searchClosest(16).key);
+
+        System.out.println("Do we have sum == 16: ");
+        System.out.println(st1.CheckExistTwoNodesWithSum(16));
 
 
-
-        BST<String> st2=new BST<String>();
-        st2.insert("dog");
-        st2.insert("bear");
-        st2.insert("cat");
-        st2.insert("fish");
-        st2.insert("wolf");
-//        st2.inorder();
-//        st2.preorder();
     }
 
 }
