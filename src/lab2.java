@@ -1,7 +1,5 @@
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Set;
-import java.util.Stack;
+import java.nio.file.Path;
+import java.util.*;
 
 
 class Node<T extends Comparable> {
@@ -18,11 +16,7 @@ class Node<T extends Comparable> {
 
 class BST <T extends Comparable>{
 
-    private Node<T> root;             // root of BST
-
-    public Node<T> getRoot() {
-        return root;
-    }
+    private Node<Integer> root;             // root of BST
 
     public BST() {
         root=null;
@@ -56,7 +50,7 @@ class BST <T extends Comparable>{
         inorderHelper(root);
     }
 
-    private void inorderHelper(Node<T> root) {
+    private void inorderHelper(Node<Integer> root) {
         if(root != null) {
             inorderHelper(root.left);
             System.out.println(root.key);
@@ -68,7 +62,7 @@ class BST <T extends Comparable>{
         preorderHelper(root);
     }
 
-    public void preorderHelper(Node<T> root) {
+    public void preorderHelper(Node<Integer> root) {
         if(root != null) {
             System.out.println(root.key);
             preorderHelper(root.left);
@@ -80,7 +74,7 @@ class BST <T extends Comparable>{
         return heightHelper(root);
     }
 
-    public int heightHelper(Node<T> root) {
+    public int heightHelper(Node<Integer> root) {
         if(root == null) {
             return -1;
         }
@@ -90,11 +84,11 @@ class BST <T extends Comparable>{
 
     }
 
-    public Node<T> search(Integer key) {
+    public Node<Integer> search(Integer key) {
         return searchHelper(root, key);
     }
 
-    public Node<T> searchHelper(Node<T> node, Integer key) {
+    public Node<Integer> searchHelper(Node<Integer> node, Integer key) {
         if(node == null || node.key.equals(key)) {
             return node;
         }
@@ -109,7 +103,7 @@ class BST <T extends Comparable>{
 
 
 
-    public Node<T> successor(Node<T> node) {
+    public Node<Integer> successor(Node<Integer> node) {
         if (node == null) {
             return null;
         }
@@ -122,7 +116,7 @@ class BST <T extends Comparable>{
             return node;
         }
 
-        Node<T> parent = node.p;
+        Node<Integer> parent = node.p;
         while(parent != null && node == parent.right) {
             node = parent;
             parent = parent.p;
@@ -134,7 +128,7 @@ class BST <T extends Comparable>{
         return isPerfectlyBalancedHelper(root) != -2;
     }
 
-    private int isPerfectlyBalancedHelper(Node<T> node) {
+    private int isPerfectlyBalancedHelper(Node<Integer> node) {
         if(node == null) {
             return 0;
         }
@@ -157,9 +151,9 @@ class BST <T extends Comparable>{
 
     }
 
-    public Node<T> searchClosest(Integer k) {
-        Node<T> closest = null;
-        Node<T> current = root;
+    public Node<Integer> searchClosest(Integer k) {
+        Node<Integer> closest = null;
+        Node<Integer> current = root;
 
         while(current != null) {
             if(k.compareTo(current.key) < 0) {
@@ -187,8 +181,8 @@ class BST <T extends Comparable>{
         }
 
         Set<Integer> set = new HashSet<>();
-        Stack<Node<T>> stack = new Stack<>();
-        Node<T> curr = root;
+        Stack<Node<Integer>> stack = new Stack<>();
+        Node<Integer> curr = root;
         while (curr != null || !stack.isEmpty()) {
             while (curr != null) {
                 stack.push(curr);
@@ -205,12 +199,107 @@ class BST <T extends Comparable>{
         return false;
     }
 
+    public void PrintPathFromTo(Node<Integer> node1, Node<Integer> node2) {
+        if(root == null || node1 == null || node2 == null) {
+            return;
+        }
+
+        Node<Integer> lca = lowestCommonAncestor(root, node1, node2);
+        if(lca == null) {
+            return;
+        }
+
+        //from node1 to lca
+        while(node1 != lca) {
+            System.out.print(node1.key + "->");
+            node1 = node1.p;
+        }
+
+        Stack<Node<Integer>> stack = new Stack<>();
+        while(node2 != lca) {
+            stack.push(node2);
+            node2 = node2.p;
+        }
+        System.out.print(lca.key);
+        while(!stack.isEmpty()) {
+            System.out.print("->" + stack.pop().key);
+        }
+    }
+
+    private Node<Integer> lowestCommonAncestor(Node<Integer> root, Node<Integer> node1, Node<Integer> node2) {
+        if(root == null || node1 == null || node2 == null) {
+            return null;
+        }
+//        System.out.println(root.key + " " + node1.key + " " + node2.key);
+        if(root.key < node1.key && root.key < node2.key) {
+            return lowestCommonAncestor(root.right, node1, node2);
+        }
+
+        if(root.key > node1.key && root.key > node2.key) {
+            return lowestCommonAncestor(root.left, node1, node2);
+        }
+
+        return root;
+
+
+    }
+
+    public void PrintPathsWithSum(Integer sum) {
+        List<Node<Integer>> path = new ArrayList<>();
+        PathsWithSumHelper(sum, root, 0, path);
+    }
+
+    public void PathsWithSumHelper(Integer sum, Node<Integer> node, Integer currSumm, List<Node<Integer>> path) {
+        if(node == null) {
+            return;
+        }
+
+        path.add(node);
+        currSumm += node.key;
+
+        if(sum == currSumm) {
+            printPath(path);
+        }
+
+        PathsWithSumHelper(sum, node.left, currSumm, path);
+        PathsWithSumHelper(sum, node.right, currSumm, path);
+
+        path.remove(path.size()-1);currSumm -= node.key;
+    }
+
+    private void printPath(List<Node<Integer>> path) {
+        for(Node<Integer> node : path) {
+            System.out.print(node.key + " ");
+        }
+        System.out.println("\n");
+    }
+
+    public void printLevels() {
+        if(root == null) {
+            return;
+        }
+
+        Queue<Node<Integer>> q = new LinkedList<>();
+        q.add(root);
+        while(!q.isEmpty()) {
+            for(int i = 0; i < q.size(); i++) {
+                Node<Integer> node = q.poll();
+                System.out.print(node.key + " ");
+                if(node.left != null) {
+                    q.add(node.left);
+                }
+                if(node.right != null) {
+                    q.add(node.right);
+                }
+            }
+        }
+
+    }
+
 
     public static void main(String[] args) {
 
         BST<Integer> st1=new BST<>();
-        st1.insert(1);
-        st1.insert(2);
         st1.insert(8);
         st1.insert(5);
         st1.insert(4);
@@ -242,6 +331,15 @@ class BST <T extends Comparable>{
         System.out.println("Do we have sum == 16: ");
         System.out.println(st1.CheckExistTwoNodesWithSum(16));
 
+
+        System.out.println("Path from 10->22: ");
+        st1.PrintPathFromTo(st1.search(10), st1.search(22));
+
+        System.out.println("\n\nPath with sum 20: ");
+        st1.PrintPathsWithSum(20);
+
+        System.out.println("Print levels: ");
+        st1.printLevels();
 
     }
 
