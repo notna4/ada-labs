@@ -4,8 +4,9 @@ import java.util.*;
 
 class Node<T extends Comparable> {
     public Integer key;
-
+    public Integer height;
     public Node left, right, p;
+
 
     public Node(Integer key) {
         this.key = key;
@@ -156,14 +157,14 @@ class BST <T extends Comparable>{
         Node<Integer> current = root;
 
         while(current != null) {
-            if(k.compareTo(current.key) < 0) {
-                if(closest == null || Math.abs(k.compareTo(current.key)) < Math.abs(k.compareTo(closest.key))) {
+            if(k-current.key < 0) {
+                if(closest == null || Math.abs(k-current.key) < Math.abs(k-closest.key)) {
                     closest = current;
                 }
                 current = current.left;
             }
-            else if(k.compareTo(current.key) > 0) {
-                if(closest == null || Math.abs(k.compareTo(current.key)) < Math.abs(k.compareTo(closest.key))) {
+            else if(k-current.key > 0) {
+                if(closest == null || Math.abs(k-current.key) < Math.abs(k-closest.key)) {
                     closest = current;
                 }
                 current = current.right;
@@ -301,45 +302,66 @@ class BST <T extends Comparable>{
 
         BST<Integer> st1=new BST<>();
         st1.insert(8);
+        st1.insert(15);
+        st1.insert(2);
         st1.insert(5);
         st1.insert(4);
-        st1.insert(3);
-        st1.insert(7);
-        st1.insert(15);
         st1.insert(10);
+        st1.insert(3);
+        st1.insert(1);
         st1.insert(20);
         st1.insert(18);
+        st1.insert(7);
         st1.insert(22);
-        st1.inorder();
-        System.out.println("\n");
-        st1.preorder();
-        System.out.println("Height: ");
-        System.out.println(st1.height());
-
-        System.out.println("Search for 7: ");
-        System.out.println(st1.search(7));
-
-        System.out.println("Successor of 18: ");
-        System.out.println(st1.successor(st1.search(18)).key);
 
         System.out.println("Is perfectly balanced: ");
         System.out.println(st1.isPerfectlyBalanced());
 
-        System.out.println("Closest of 16: ");
+        System.out.println("search closest 16: ");
         System.out.println(st1.searchClosest(16).key);
 
-        System.out.println("Do we have sum == 16: ");
-        System.out.println(st1.CheckExistTwoNodesWithSum(16));
+        System.out.println("check exist two nodes with sum 12");
+        System.out.println(st1.CheckExistTwoNodesWithSum(12));
 
+        System.out.println("print path from 10 to 18");
+        st1.PrintPathFromTo(st1.search(10), st1.search(18));
 
-        System.out.println("Path from 10->22: ");
-        st1.PrintPathFromTo(st1.search(10), st1.search(22));
+        System.out.println("\nprint path with sum 22");
+        st1.PrintPathsWithSum(22);
 
-        System.out.println("\n\nPath with sum 20: ");
-        st1.PrintPathsWithSum(20);
-
-        System.out.println("Print levels: ");
+        System.out.println("print levels");
         st1.printLevels();
+
+//        st1.inorder();
+//        System.out.println("\n");
+//        st1.preorder();
+//        System.out.println("Height: ");
+//        System.out.println(st1.height());
+//
+//        System.out.println("Search for 7: ");
+//        System.out.println(st1.search(7).key);
+//
+//        System.out.println("Successor of 8: ");
+//        System.out.println(st1.successor(st1.search(8)).key);
+//
+//        System.out.println("Is perfectly balanced: ");
+//        System.out.println(st1.isPerfectlyBalanced());
+//
+//        System.out.println("Closest of 16: ");
+//        System.out.println(st1.searchClosest(16).key);
+//
+//        System.out.println("Do we have sum == 16: ");
+//        System.out.println(st1.CheckExistTwoNodesWithSum(16));
+//
+//
+//        System.out.println("Path from 10->22: ");
+//        st1.PrintPathFromTo(st1.search(10), st1.search(22));
+//
+//        System.out.println("\n\nPath with sum 20: ");
+//        st1.PrintPathsWithSum(20);
+//
+//        System.out.println("Print levels: ");
+//        st1.printLevels();
 
     }
 
