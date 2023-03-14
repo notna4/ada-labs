@@ -4,7 +4,7 @@ import java.util.*;
 
 class Node<T extends Comparable> {
     public Integer key;
-    public Integer height;
+    public int height;
     public Node left, right, p;
 
 
@@ -300,37 +300,48 @@ class BST <T extends Comparable>{
 
     public static void main(String[] args) {
 
-        BST<Integer> st1=new BST<>();
-        st1.insert(8);
-        st1.insert(15);
-        st1.insert(2);
-        st1.insert(5);
-        st1.insert(4);
-        st1.insert(10);
-        st1.insert(3);
-        st1.insert(1);
-        st1.insert(20);
-        st1.insert(18);
-        st1.insert(7);
-        st1.insert(22);
+        BST<Integer> tree=new BST<>();
+//        st1.insert(8);
+//        st1.insert(15);
+//        st1.insert(2);
+//        st1.insert(5);
+//        st1.insert(4);
+//        st1.insert(10);
+//        st1.insert(3);
+//        st1.insert(1);
+//        st1.insert(20);
+//        st1.insert(18);
+//        st1.insert(7);
+//        st1.insert(22);
+//
+//        System.out.println("Is perfectly balanced: ");
+//        System.out.println(st1.isPerfectlyBalanced());
+//
+//        System.out.println("search closest 16: ");
+//        System.out.println(st1.searchClosest(16).key);
+//
+//        System.out.println("check exist two nodes with sum 12");
+//        System.out.println(st1.CheckExistTwoNodesWithSum(12));
+//
+//        System.out.println("print path from 10 to 18");
+//        st1.PrintPathFromTo(st1.search(10), st1.search(18));
+//
+//        System.out.println("\nprint path with sum 22");
+//        st1.PrintPathsWithSum(22);
+//
+//        System.out.println("print levels");
+//        st1.printLevels();
 
-        System.out.println("Is perfectly balanced: ");
-        System.out.println(st1.isPerfectlyBalanced());
+        Random random = new Random();
 
-        System.out.println("search closest 16: ");
-        System.out.println(st1.searchClosest(16).key);
+        long start = System.nanoTime();
+        for(int i = 0; i < 1000000; i++) {
+            tree.insert(i);
+        }
+        long end = System.nanoTime();
+        System.out.println((end-start)/1000000 + "ms");
 
-        System.out.println("check exist two nodes with sum 12");
-        System.out.println(st1.CheckExistTwoNodesWithSum(12));
-
-        System.out.println("print path from 10 to 18");
-        st1.PrintPathFromTo(st1.search(10), st1.search(18));
-
-        System.out.println("\nprint path with sum 22");
-        st1.PrintPathsWithSum(22);
-
-        System.out.println("print levels");
-        st1.printLevels();
+        System.out.println(tree.height());
 
 //        st1.inorder();
 //        System.out.println("\n");

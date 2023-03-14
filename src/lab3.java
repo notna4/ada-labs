@@ -1,4 +1,5 @@
-
+import java.util.Random;
+import java.util.TreeMap;
 
 class AVLTree {
     Node root;
@@ -6,11 +7,9 @@ class AVLTree {
         root=null;
     }
 
-    int height(Node root) {
-        if(root == null) {
-            return 0;
-        }
-        return root.height;
+    public int height(Node node) {
+        if (node == null) return 0;
+        return node.height;
     }
 
     private int getBalance(Node root) {
@@ -21,7 +20,7 @@ class AVLTree {
     }
 
     public void insert(int key) {
-        insertHelper(root, key);
+        root = insertHelper(root, key);
     }
 
     // A utility function to get maximum of two integers
@@ -65,42 +64,37 @@ class AVLTree {
         return y;
     }
 
-    private void insertHelper(Node root, int key) {
-        if(root == null) {
-            new Node(key);
-            return;
+    private Node insertHelper(Node node, int key) {
+        if (node == null) return new Node(key);
+
+        if (key < node.key) {
+            node.left = insertHelper(node.left, key);
+        } else if (key > node.key) {
+            node.right = insertHelper(node.right, key);
+        } else {
+            return node;
         }
 
-        if(key > root.key) {
-            insertHelper(root.right, key);
+        node.height = 1 + Math.max(height(node.left), height(node.right));
+
+        int balance = getBalance(node);
+
+        if (balance > 1 && key < node.left.key) {
+            return rightRotate(node);
         }
-        else if(key < root.key) {
-            insertHelper(root.left, key);
+        if (balance < -1 && key > node.right.key) {
+            return leftRotate(node);
         }
-
-        root.height = 1+Math.max(height(root.left), height(root.right));
-        int balance = getBalance(root);
-
-        // If this node becomes unbalanced, then there
-        // are 4 cases Left Left Case
-        if (balance > 1 && key < root.left.key)
-            rightRotate(root);
-
-        // Right Right Case
-        if (balance < -1 && key > root.right.key)
-            leftRotate(root);
-
-        // Left Right Case
-        if (balance > 1 && key > root.left.key) {
-            root.left = leftRotate(root.left);
-            rightRotate(root);
+        if (balance > 1 && key > node.left.key) {
+            node.left = leftRotate(node.left);
+            return rightRotate(node);
+        }
+        if (balance < -1 && key < node.right.key) {
+            node.right = rightRotate(node.right);
+            return leftRotate(node);
         }
 
-        // Right Left Case
-        if (balance < -1 && key < root.right.key) {
-            root.right = rightRotate(root.right);
-            leftRotate(root);
-        }
+        return node;
 
     }
 
@@ -119,19 +113,44 @@ class AVLTree {
     public static void main(String[] args) {
         AVLTree tree = new AVLTree();
 
-        tree.insert(4);
-        tree.insert(23);
-        tree.insert(11);
-        tree.insert(89);
-        tree.insert(34);
-        tree.insert(2);
-        tree.insert(7);
-        tree.insert(14);
-        tree.insert(75);
-        tree.insert(69);
-        tree.insert(99);
-        tree.insert(80);
+//        tree.insert(4);
+//        tree.insert(23);
+//        tree.insert(11);
+//        tree.insert(89);
+//        tree.insert(34);
+//        tree.insert(2);
+//        tree.insert(7);
+//        tree.insert(14);
+//        tree.insert(75);
+//        tree.insert(69);
+//        tree.insert(99);
+//        tree.insert(80);
 
-        tree.inorder();
+//        Random random = new Random();
+//
+//        long start = System.nanoTime();
+//        for(int i = 0; i < 1000000; i++) {
+//            tree.insert(random.nextInt(1000));
+//        }
+//        long end = System.nanoTime();
+//        System.out.println((end-start)/1000000 + "ms");
+//
+//        System.out.println(tree.height(tree.root));
+
+
+        TreeMap<Integer, Integer> tm = new TreeMap<>();
+
+        Random random = new Random();
+
+        long start = System.nanoTime();
+        for(int i = 0; i < 4; i++) {
+            tree.insert(i);
+        }
+        long end = System.nanoTime();
+        System.out.println((end-start)/1000000 + "ms");
+
+        System.out.println(tree.height(tree.root));
+
+
     }
 }

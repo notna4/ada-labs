@@ -4,10 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="e413d7c5-2f35-4951-ab9f-6a9f8666f568" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/lab3.java" afterDir="false" />
+    <list default="true" id="e413d7c5-2f35-4951-ab9f-6a9f8666f568" name="Changes" comment="implementation of insertion in avl tree">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/lab2.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/lab2.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/lab3.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/lab3.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -54,7 +54,7 @@
       <recent name="C:\Users\crist\Desktop\java\ada-labs\files-lab1" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.BST">
+  <component name="RunManager">
     <configuration name="BST" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="BST" />
       <module name="ada-labs" />
@@ -94,6 +94,8 @@
       <workItem from="1678349354588" duration="65000" />
       <workItem from="1678647656872" duration="3054000" />
       <workItem from="1678782085346" duration="305000" />
+      <workItem from="1678790376475" duration="807000" />
+      <workItem from="1678801068139" duration="4223000" />
     </task>
     <task id="LOCAL-00001" summary="lab 1 brute force method">
       <created>1677414187695</created>
@@ -151,7 +153,21 @@
       <option name="project" value="LOCAL" />
       <updated>1678089851911</updated>
     </task>
-    <option name="localTasksCounter" value="9" />
+    <task id="LOCAL-00009" summary="added height for lab3 avl tree">
+      <created>1678790452165</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1678790452165</updated>
+    </task>
+    <task id="LOCAL-00010" summary="implementation of insertion in avl tree">
+      <created>1678790488535</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1678790488535</updated>
+    </task>
+    <option name="localTasksCounter" value="11" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -167,6 +183,8 @@
     <MESSAGE value="inorder, preorder, height, search" />
     <MESSAGE value="searchClosest, isPerfectlyBalanced, CheckExistTwoNodesWithSum" />
     <MESSAGE value="pathfromnodes, pathwithsum, printlevels" />
-    <option name="LAST_COMMIT_MESSAGE" value="pathfromnodes, pathwithsum, printlevels" />
+    <MESSAGE value="added height for lab3 avl tree" />
+    <MESSAGE value="implementation of insertion in avl tree" />
+    <option name="LAST_COMMIT_MESSAGE" value="implementation of insertion in avl tree" />
   </component>
 </project>
